@@ -1,0 +1,8 @@
+:local(.nav) {
+  background: #FF5722;
+  color: #F5F5F5;
+  font-family: "Open Sans"; }
+
+:local(.navBrand) {
+  text-align: left;
+  font-size: 24pt; }

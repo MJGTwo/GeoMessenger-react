@@ -1,19 +1,7 @@
 @import '../../style/colors.scss';
 @import '../../style/type.scss';
 
-.App {
+:local(.app) {
   text-align: center;
-}
-
-.App-header {
-  background-color: $colorPrimary;
-  height: 150px;
-  padding: 20px;
-  color: $colorText;
-  font-family: $font1;
-}
-
-.App-intro {
-  font-size: large;
-  font-family: $font1;
+  position: absolute;
 }

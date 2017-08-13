@@ -1,0 +1,22 @@
+:local(.textInput) {
+  background: #FF5722;
+  color: #F5F5F5;
+  font-family: "Open Sans";
+  bottom: 0;
+  height: 90px; }
+
+:local(.tiButton) {
+  position: absolute;
+  background: #FFCA28;
+  font-size: 16pt;
+  padding: 10px;
+  border: 1px solid #f4b800;
+  box-shadow: 1px 1px 1px grey;
+  margin: 20px 0px; }
+
+:local(.tiInput) {
+  position: absolute;
+  background: #F5F5F5;
+  height: 40px;
+  font-size: 24pt;
+  color: black; }
