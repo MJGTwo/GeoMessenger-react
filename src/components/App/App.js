@@ -12,6 +12,12 @@ class App extends Component {
       windowHeight : window.innerHeight,
       navHeight : 70,
       tiHeight : 100,
+      msg : '',
+      account : {
+        loggedIn : false,
+        name : null,
+        email : null,
+      }
     }
   }
 
@@ -25,6 +31,11 @@ class App extends Component {
     this.setState({windowHeight})
   }
 
+  onInputChange = (evt) => {
+    const msg = evt.target.value;
+    this.setState({msg})
+  }
+
   render() {
     const mapHeight = this.state.windowHeight - (this.state.navHeight + this.state.tiHeight);
     console.log(
@@ -32,9 +43,9 @@ class App extends Component {
     )
     return (
       <div className= {s.app}>
-        <Nav height = {this.state.navHeight}/>
+        <Nav height = {this.state.navHeight} account = {this.state.account}/>
         <Map height = {mapHeight}/>
-        <TextInput height = {this.state.tiHeight}/>
+        <TextInput height = {this.state.tiHeight} onInputChange = {this.onInputChange} value = {this.state.msg}/>
       </div>
     );
   }

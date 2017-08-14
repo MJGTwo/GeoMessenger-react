@@ -3,19 +3,15 @@ import { Flex, Box } from 'reflexbox';
 import s from './textInput.css';
 
 export default function TextInput(props){
-  const {height,value} = {...props};
+  const {height,value,onInputChange} = {...props};
 
-  const onInputChange = (e) => {
-    console.log(e);
-  }
 
 
   return (
     <div className = {s.textInput} style = {{height : `${height}px`}}>
       <Flex>
         <Box w= {7/8} >
-          <input className = {s.tiInput}>
-            {value}
+          <input className = {s.tiInput} value={value} onChange={evt => onInputChange(evt)}>
           </input>
         </Box>
         <Box w = {1/8}>
