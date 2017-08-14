@@ -34,7 +34,7 @@ class App extends Component {
       <div className= {s.app}>
         <Nav height = {this.state.navHeight}/>
         <Map height = {mapHeight}/>
-        <TextInput height = {this.state.tiHeight-2}/>
+        <TextInput height = {this.state.tiHeight}/>
       </div>
     );
   }

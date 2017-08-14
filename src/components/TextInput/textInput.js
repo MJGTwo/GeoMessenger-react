@@ -5,8 +5,8 @@ import s from './textInput.css';
 export default function TextInput(props){
   const {height,value} = {...props};
 
-  const onInputChange = () => {
-
+  const onInputChange = (e) => {
+    console.log(e);
   }
 
 
