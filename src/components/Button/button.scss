@@ -1,0 +1,18 @@
+@import '../../style/colors.scss';
+@import '../../style/type.scss';
+
+:local(.button){
+  background: $colorAccent1;
+  transition: all 0.3s;
+  color : white;
+  font-size: 20pt;
+  padding: 8px;
+  padding-bottom: 9px;
+  border: 1px solid darken($colorAccent1,10%);
+  box-shadow: 1px 1px 1px grey;
+  cursor:pointer;
+}
+
+:local(.button:hover){
+  background: darken($colorAccent1,10%);;
+}

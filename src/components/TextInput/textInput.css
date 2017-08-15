@@ -1,0 +1,14 @@
+:local(.textInput) {
+  background: #FF5722;
+  color: #F5F5F5;
+  font-family: "Open Sans";
+  bottom: 0;
+  height: 90px; }
+
+:local(.messageInput) {
+  background: #F5F5F5;
+  line-height: 47px;
+  font-size: 20pt;
+  border: 1px solid #f4b800;
+  box-shadow: 1px 1px 1px grey;
+  border-right: 0px; }
