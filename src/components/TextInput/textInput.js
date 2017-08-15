@@ -12,9 +12,13 @@ const Message = (props) => {
 
   return (
     <div className = {s.message} style = {{padding: `${height/4}px`}}>
-      <input className = {s.messageInput} value={value} onChange={evt => onInputChange(evt)}>
+      <input
+        className = {s.messageInput}
+        value={value}
+        onChange={evt => onInputChange(evt)}
+        onKeyUp = {evt => {evt.key === 'Enter' ? onSubmit() : null}}>
       </input>
-      <Button  onClick = { () => onSubmit}>
+      <Button  onClick = { () => onSubmit()}>
         Submit
       </Button>
     </div>

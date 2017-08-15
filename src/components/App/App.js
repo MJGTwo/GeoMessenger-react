@@ -36,16 +36,28 @@ class App extends Component {
     this.setState({msg})
   }
 
+  onSubmitMessage = () => {
+    if (this.state.msg.length > 0){
+      console.log(this.state.msg);
+      const msg = '';
+      this.setState({msg});
+    }
+  }
+
   render() {
     const mapHeight = this.state.windowHeight - (this.state.navHeight + this.state.tiHeight);
-    console.log(
-      this.state.windowHeight, mapHeight, this.state.navHeight, this.state.tiHeight
-    )
+    // console.log(
+    //   this.state.windowHeight, mapHeight, this.state.navHeight, this.state.tiHeight
+    // )
     return (
       <div className= {s.app}>
         <Nav height = {this.state.navHeight} account = {this.state.account}/>
         <Map height = {mapHeight}/>
-        <TextInput height = {this.state.tiHeight} onInputChange = {this.onInputChange} value = {this.state.msg}/>
+        <TextInput
+          height = {this.state.tiHeight}
+          onInputChange = {this.onInputChange}
+          onSubmit = {this.onSubmitMessage}
+          value = {this.state.msg}/>
       </div>
     );
   }

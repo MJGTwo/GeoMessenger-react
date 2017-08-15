@@ -18,7 +18,7 @@ export default class Map extends Component{
 
   render(){
     const {height} = {...this.props};
-    console.log('map', height)
+    // console.log('map', height)
     return (
       <div className = {s.map} style = {{height : `${height}px`}}>
         <GoogleMap

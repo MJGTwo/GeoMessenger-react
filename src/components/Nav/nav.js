@@ -18,7 +18,7 @@ export default function Nav(props){
     }
     else {
       return (
-        <Button>
+        <Button style = {{ padding: '10px'}}>
           Login
         </Button>
       )
@@ -32,7 +32,7 @@ export default function Nav(props){
           GeoMessenger
         </Box>
         <Box w = {1/2} p = {2}/>
-        <Box w = {1/6} p = {2}>
+        <Box w = {1/6} p = {1}>
           {renderAccount()}
         </Box>
       </Flex>

@@ -1,8 +1,13 @@
 :local(.button) {
   background: #FFCA28;
+  transition: all 0.3s;
   color: white;
   font-size: 20pt;
   padding: 8px;
   padding-bottom: 9px;
   border: 1px solid #f4b800;
-  box-shadow: 1px 1px 1px grey; }
+  box-shadow: 1px 1px 1px grey;
+  cursor: pointer; }
+
+:local(.button:hover) {
+  background: #f4b800; }
