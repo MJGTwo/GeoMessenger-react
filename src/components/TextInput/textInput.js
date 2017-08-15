@@ -1,25 +1,43 @@
 import React from 'react';
 import { Flex, Box } from 'reflexbox';
+
+import Button from '../Button';
+
 import s from './textInput.css';
 
-export default function TextInput(props){
-  const {height,value,onInputChange} = {...props};
+
+const Message = (props) => {
+  const {height,value,onInputChange, onSubmit} = {...props};
 
 
+  return (
+    <div className = {s.message} style = {{padding: `${height/4}px`}}>
+      <input className = {s.messageInput} value={value} onChange={evt => onInputChange(evt)}>
+      </input>
+      <Button  onClick = { () => onSubmit}>
+        Submit
+      </Button>
+    </div>
+  )
+}
+
+
+
+
+
+export default function InputBar(props){
+  const {height} = {...props};
 
   return (
     <div className = {s.textInput} style = {{height : `${height}px`}}>
       <Flex>
-        <Box w= {7/8} >
-          <input className = {s.tiInput} value={value} onChange={evt => onInputChange(evt)}>
-          </input>
+        <Box w= {1/7} />
+        <Box w= {5/7} >
+              <Message {...props}/>
         </Box>
-        <Box w = {1/8}>
-          <div className = {s.tiButton}>
-            Submit
-          </div>
-        </Box>
+        <Box w= {1/7} />
       </Flex>
+
 
 
     </div>

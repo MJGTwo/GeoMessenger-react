@@ -5,19 +5,10 @@
   bottom: 0;
   height: 90px; }
 
-:local(.tiButton) {
-  position: absolute;
-  background: #FFCA28;
-  font-size: 16pt;
-  padding: 12px;
+:local(.messageInput) {
+  background: #F5F5F5;
+  line-height: 47px;
+  font-size: 20pt;
   border: 1px solid #f4b800;
   box-shadow: 1px 1px 1px grey;
-  margin: 20px 0px; }
-
-:local(.tiInput) {
-  background: #F5F5F5;
-  line-height: 50px;
-  font-size: 24pt;
-  width: 90%;
-  margin: 20px 0px;
-  color: black; }
+  border-right: 0px; }

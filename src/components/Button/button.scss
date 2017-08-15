@@ -1,0 +1,12 @@
+@import '../../style/colors.scss';
+@import '../../style/type.scss';
+
+:local(.button){
+  background: $colorAccent1;
+  color : white;
+  font-size: 20pt;
+  padding: 8px;
+  padding-bottom: 9px;
+  border: 1px solid darken($colorAccent1,10%);
+  box-shadow: 1px 1px 1px grey;
+}

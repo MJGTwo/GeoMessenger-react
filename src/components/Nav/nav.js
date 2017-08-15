@@ -1,5 +1,8 @@
 import React from 'react';
 import { Flex, Box } from 'reflexbox';
+
+import Button from '../Button';
+
 import s from './nav.css';
 
 export default function Nav(props){
@@ -15,9 +18,9 @@ export default function Nav(props){
     }
     else {
       return (
-        <div>
+        <Button>
           Login
-        </div>
+        </Button>
       )
     }
   }
