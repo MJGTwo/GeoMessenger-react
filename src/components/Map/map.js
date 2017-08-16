@@ -40,9 +40,6 @@ export default class Map extends Component{
   };
   constructor(props){
     super(props);
-    this.state = {
-      markers: [],
-    };
   }
 
   handleMapLoad = (map) => {
@@ -53,28 +50,12 @@ export default class Map extends Component{
   }
 
   handleMapClick = (event) => {
-    const nextMarkers = [
-      ...this.state.markers,
-      {
-        position: event.latLng,
-        defaultAnimation: 0,
-        key: Date.now(),
-      },
-    ];
-    this.setState({
-      markers: nextMarkers,
-    });
-
-    if (nextMarkers.length === 3) {
-
-    }
+    this.props.onClickHandler(event);
   }
 
   handleMarkerRightClick = (targetMarker) => {
-    const nextMarkers = this.state.markers.filter(marker => marker !== targetMarker);
-    this.setState({
-      markers: nextMarkers,
-    });
+    const nextMarkers = this.props.markers.filter(marker => marker !== targetMarker);
+    this.props.updateMarkers(nextMarkers);
   }
 
   render(){
@@ -91,7 +72,7 @@ export default class Map extends Component{
           }
           onMapLoad={this.handleMapLoad}
           onMapClick={this.handleMapClick}
-          markers={this.state.markers}
+          markers={this.props.markers}
           onMarkerRightClick={this.handleMarkerRightClick}
         />
 

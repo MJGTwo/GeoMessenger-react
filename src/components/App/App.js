@@ -18,7 +18,9 @@ class App extends Component {
         loggedIn : false,
         name : null,
         email : null,
-      }
+      },
+      markers : [],
+      disabledInput : true,
     }
   }
 
@@ -45,6 +47,33 @@ class App extends Component {
     }
   }
 
+  onMapClickHandler = (event) => {
+    let marker = {
+      position: event.latLng,
+      msg : null,
+      time : null,
+      defaultAnimation: 0,
+      key: Date.now(),
+    };
+    const markers = [
+      ...this.state.markers,
+      marker,
+    ];
+    this.setState({
+      markers,
+    });
+  }
+
+  // enableInput = (marker) => {
+  //
+  //
+  //   return marker;
+  // }
+
+  updateMarkersHandler = (markers) => {
+    this.setState({markers})
+  }
+
   render() {
     const mapHeight = this.state.windowHeight - (this.state.navHeight + this.state.tiHeight);
     // console.log(
@@ -53,11 +82,17 @@ class App extends Component {
     return (
       <div className= {s.app}>
         <Nav height = {this.state.navHeight} account = {this.state.account}/>
-        <Map height = {mapHeight}/>
+        <Map
+          height = {mapHeight}
+          onClickHandler = {this.onMapClickHandler}
+          markers = {this.state.markers}
+          updateMarkers = {this.updateMarkersHandler}
+        />
         <TextInput
           height = {this.state.tiHeight}
           onInputChange = {this.onInputChange}
           onSubmit = {this.onSubmitMessage}
+          disabled = {this.state.disabledInput}
           value = {this.state.msg}/>
       </div>
     );

@@ -7,7 +7,7 @@ import s from './textInput.css';
 
 
 const Message = (props) => {
-  const {height,value,onInputChange, onSubmit} = {...props};
+  const {height,value,onInputChange, onSubmit, disabled} = {...props};
 
 
   return (
@@ -15,10 +15,13 @@ const Message = (props) => {
       <input
         className = {s.messageInput}
         value={value}
+        disabled = {disabled}
         onChange={evt => onInputChange(evt)}
         onKeyUp = {evt => {evt.key === 'Enter' ? onSubmit() : null}}>
       </input>
-      <Button  onClick = { () => onSubmit()}>
+      <Button
+        disabled = {disabled}
+        onClick = { () => onSubmit()}>
         Submit
       </Button>
     </div>
