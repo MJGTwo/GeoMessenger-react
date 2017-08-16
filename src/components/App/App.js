@@ -13,6 +13,7 @@ class App extends Component {
       navHeight : 70,
       tiHeight : 100,
       msg : '',
+      location : null,
       account : {
         loggedIn : false,
         name : null,
