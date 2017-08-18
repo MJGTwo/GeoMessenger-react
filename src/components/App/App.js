@@ -21,6 +21,7 @@ class App extends Component {
       },
       markers : [],
       disabledInput : true,
+      selectedMarker : null
     }
   }
 
@@ -40,17 +41,32 @@ class App extends Component {
   }
 
   onSubmitMessage = () => {
-    if (this.state.msg.length > 0){
-      console.log(this.state.msg);
-      const msg = '';
-      this.setState({msg});
+    if (this.state.msg.length > 0 && this.state.selectedMarker){
+      // console.log(this.state.msg);
+      // const msg = '';
+      // this.setState({msg});
+      let selectedMarker = this.state.selectedMarker;
+      let markers = this.state.markers;
+      let msg = this.state.msg;
+      selectedMarker.msg = msg;
+      selectedMarker.showMsg = true;
+      markers = markers.map ((marker) => {
+        if (marker.key === selectedMarker.key){
+          return selectedMarker;
+        }
+        return marker
+      });
+      msg = '';
+      console.log("done!")
+      this.setState({selectedMarker,markers,msg})
+
     }
   }
 
   onMapClickHandler = (event) => {
     let marker = {
       position: event.latLng,
-      msg : "Hello!",
+      msg : "-insert message-",
       time : null,
       defaultAnimation: 0,
       key: Date.now(),
@@ -87,6 +103,7 @@ class App extends Component {
         }
         return marker;
       }),
+      selectedMarker : targetMarker
     });
   }
 
