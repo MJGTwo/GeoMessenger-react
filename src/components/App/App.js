@@ -42,40 +42,50 @@ class App extends Component {
 
   onSubmitMessage = () => {
     if (this.state.msg.length > 0 && this.state.selectedMarker){
-      // console.log(this.state.msg);
-      // const msg = '';
-      // this.setState({msg});
-      let selectedMarker = this.state.selectedMarker;
-      let markers = this.state.markers;
-      let msg = this.state.msg;
-      selectedMarker.msg = msg;
-      selectedMarker.showMsg = true;
-      markers = markers.map ((marker) => {
-        if (marker.key === selectedMarker.key){
-          return selectedMarker;
-        }
-        return marker
-      });
-      msg = '';
-      console.log("done!")
-      this.setState({selectedMarker,markers,msg})
+      this.editMarkerMsg();
 
     }
   }
 
-  onMapClickHandler = (event) => {
+  editMarkerMsg = () => {
+    let selectedMarker = this.state.selectedMarker;
+    let markers = this.state.markers;
+    let msg = this.state.msg;
+    selectedMarker.msg = msg;
+    selectedMarker.showMsg = true;
+    markers = markers.map ((marker) => {
+      if (marker.key === selectedMarker.key){
+        return selectedMarker;
+      }
+      return marker
+    });
+    msg = '';
+    this.setState({selectedMarker,markers,msg})
+  }
+
+  createMarker = (latLng) => {
     let marker = {
-      position: event.latLng,
+      position: latLng,
       msg : "-insert message-",
       time : null,
       defaultAnimation: 0,
       key: Date.now(),
       showMsg: false,
     };
+    return marker;
+  }
+
+  addMarker = (marker) => {
     const markers = [
       ...this.state.markers,
       marker,
     ];
+    return markers;
+  }
+
+  onMapClickHandler = (event) => {
+    const marker = this.createMarker(event.latLng);
+    const markers = this.addMarker(marker);
     this.setState({
       markers,
       disabledInput : false,
@@ -92,19 +102,23 @@ class App extends Component {
     this.setState({markers})
   }
 
-  onMarkerClick = (targetMarker) => {
+  selectMarker = (selectedMarker) => {
     this.setState({
       markers: this.state.markers.map(marker => {
-        if (marker === targetMarker) {
+        if (marker === selectedMarker) {
           return {
             ...marker,
-            showMsg: ! targetMarker.showMsg,
+            showMsg: ! selectedMarker.showMsg,
           };
         }
         return marker;
       }),
-      selectedMarker : targetMarker
+      selectedMarker,
     });
+  }
+
+  onMarkerClick = (targetMarker) => {
+    this.selectMarker(targetMarker);
   }
 
   render() {
