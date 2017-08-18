@@ -50,10 +50,11 @@ class App extends Component {
   onMapClickHandler = (event) => {
     let marker = {
       position: event.latLng,
-      msg : null,
+      msg : "Hello!",
       time : null,
       defaultAnimation: 0,
       key: Date.now(),
+      showMsg: false,
     };
     const markers = [
       ...this.state.markers,
@@ -61,6 +62,7 @@ class App extends Component {
     ];
     this.setState({
       markers,
+      disabledInput : false,
     });
   }
 
@@ -74,6 +76,20 @@ class App extends Component {
     this.setState({markers})
   }
 
+  onMarkerClick = (targetMarker) => {
+    this.setState({
+      markers: this.state.markers.map(marker => {
+        if (marker === targetMarker) {
+          return {
+            ...marker,
+            showMsg: ! targetMarker.showMsg,
+          };
+        }
+        return marker;
+      }),
+    });
+  }
+
   render() {
     const mapHeight = this.state.windowHeight - (this.state.navHeight + this.state.tiHeight);
     // console.log(
@@ -83,13 +99,14 @@ class App extends Component {
       <div className= {s.app}>
         <Nav height = {this.state.navHeight} account = {this.state.account}/>
         <Map
-          height = {mapHeight}
-          onClickHandler = {this.onMapClickHandler}
+          height = {mapHeight + (! this.state.disabledInput ? 0 : this.state.tiHeight)}
+          onMapClick = {this.onMapClickHandler}
           markers = {this.state.markers}
           updateMarkers = {this.updateMarkersHandler}
+          onMarkerClick = {this.onMarkerClick}
         />
         <TextInput
-          height = {this.state.tiHeight}
+          height = {this.state.disabledInput ? 0 : this.state.tiHeight}
           onInputChange = {this.onInputChange}
           onSubmit = {this.onSubmitMessage}
           disabled = {this.state.disabledInput}

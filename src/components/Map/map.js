@@ -3,6 +3,7 @@ import _ from 'lodash';
 import {
   withGoogleMap,
   GoogleMap,
+  InfoWindow,
   Marker,
 } from 'react-google-maps';
 
@@ -23,8 +24,16 @@ const GoogleMapContainer = withGoogleMap(props => (
     {props.markers.map(marker => (
       <Marker
         {...marker}
+        onClick = {() => props.onMarkerClick(marker)}
         onRightClick={() => props.onMarkerRightClick(marker)}
-      />
+      >
+
+        {marker.showMsg && (
+          <InfoWindow onCloseClick={() => props.onMarkerClick(marker)}>
+            <div>{marker.msg}</div>
+          </InfoWindow>
+        )}
+      </Marker>
     ))}
   </GoogleMap>
 ));
@@ -50,12 +59,17 @@ export default class Map extends Component{
   }
 
   handleMapClick = (event) => {
-    this.props.onClickHandler(event);
+    this.props.onMapClick(event);
   }
 
   handleMarkerRightClick = (targetMarker) => {
     const nextMarkers = this.props.markers.filter(marker => marker !== targetMarker);
     this.props.updateMarkers(nextMarkers);
+  }
+
+  handleMarkerClick = (targetMarker) => {
+    // console.log("marker clicked",targetMarker)
+    this.props.onMarkerClick(targetMarker)
   }
 
   render(){
@@ -74,6 +88,7 @@ export default class Map extends Component{
           onMapClick={this.handleMapClick}
           markers={this.props.markers}
           onMarkerRightClick={this.handleMarkerRightClick}
+          onMarkerClick={this.handleMarkerClick}
         />
 
 
