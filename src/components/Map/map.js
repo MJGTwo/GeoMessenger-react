@@ -1,9 +1,44 @@
 import React, {Component} from 'react';
-import GoogleMap from 'google-map-react';
+import _ from 'lodash';
+import {
+  withGoogleMap,
+  GoogleMap,
+  InfoWindow,
+  Marker,
+} from 'react-google-maps';
 
 import s from './map.css';
 
 const API_KEY = 'AIzaSyDuUqpv6shuq8CIWgVjLdmVLm8SU8eSHU0';
+
+
+
+
+const GoogleMapContainer = withGoogleMap(props => (
+  <GoogleMap
+    ref={props.onMapLoad}
+    defaultZoom={10}
+    defaultCenter={{ lat: 40.6976684, lng: -74.0154206 }}
+    onClick={props.onMapClick}
+  >
+    {props.markers.map(marker => (
+      <Marker
+        {...marker}
+        onClick = {() => props.onMarkerClick(marker)}
+        onRightClick={() => props.onMarkerRightClick(marker)}
+      >
+
+        {marker.showMsg && (
+          <InfoWindow onCloseClick={() => props.onMarkerClick(marker)}>
+            <div>{marker.msg}</div>
+          </InfoWindow>
+        )}
+      </Marker>
+    ))}
+  </GoogleMap>
+));
+
+
 
 export default class Map extends Component{
 
@@ -16,20 +51,48 @@ export default class Map extends Component{
     super(props);
   }
 
+  handleMapLoad = (map) => {
+    this._mapComponent = map;
+    if (map) {
+      console.log(map.getZoom());
+    }
+  }
+
+  handleMapClick = (event) => {
+    this.props.onMapClick(event);
+  }
+
+  handleMarkerRightClick = (targetMarker) => {
+    const nextMarkers = this.props.markers.filter(marker => marker !== targetMarker);
+    this.props.updateMarkers(nextMarkers);
+  }
+
+  handleMarkerClick = (targetMarker) => {
+    // console.log("marker clicked",targetMarker)
+    if (targetMarker.msg.length === 0) this.handleMarkerRightClick(targetMarker);
+    else this.props.onMarkerClick(targetMarker)
+  }
+
   render(){
     const {height} = {...this.props};
-    // console.log('map', height)
     return (
-      <div className = {s.map} style = {{height : `${height}px`}}>
-        <GoogleMap
-          center={this.props.center}
-          zoom={this.props.zoom}
-          bootstrapURLKeys={{
-            key: API_KEY,
-            language: 'en',
-          }}
-        >
-        </GoogleMap>
+      <div className = {s.map}  id = "map" style = {{height : `${height}px`}}>
+
+        <GoogleMapContainer
+          containerElement={
+            <div style={{ height: `100%` }} />
+          }
+          mapElement={
+            <div style={{ height: `100%` }} />
+          }
+          onMapLoad={this.handleMapLoad}
+          onMapClick={this.handleMapClick}
+          markers={this.props.markers}
+          onMarkerRightClick={this.handleMarkerRightClick}
+          onMarkerClick={this.handleMarkerClick}
+        />
+
+
       </div>
 
     );

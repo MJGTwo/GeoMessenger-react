@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@google/maps": "^0.4.3",
     "classnames": "^2.2.5",
     "google-map-react": "^0.24.0",
     "lodash": "^4.17.4",
@@ -10,6 +11,7 @@
     "npm-run-all": "^4.0.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-google-maps": "next",
     "reflexbox": "^3.0.0-0"
   },
   "devDependencies": {
