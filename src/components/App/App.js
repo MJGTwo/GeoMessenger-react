@@ -41,34 +41,16 @@ class App extends Component {
     this.setState({msg})
   }
 
-  onSubmitMessage = () => {
-    if (this.state.msg.length > 0 && this.state.selectedMarker){
-      this.editMarkerMsg();
-      this.toggleMap();
-      this.setState({disabledInput : true})
-    }
-  }
-
-  editMarkerMsg = () => {
-    let selectedMarker = this.state.selectedMarker;
-    let markers = this.state.markers;
-    let msg = this.state.msg;
-    selectedMarker.msg = msg;
-    selectedMarker.showMsg = true;
-    markers = markers.map ((marker) => {
-      if (marker.key === selectedMarker.key){
-        return selectedMarker;
-      }
-      return marker
-    });
-    msg = '';
-    this.setState({selectedMarker,markers,msg})
-  }
-
   toggleMap = () => {
     const disableMapClick = ! this.state.disableMapClick;
     this.setState({disableMapClick, })
   }
+
+  isMarkerSelected = () => {
+    return (this.state.selectedMarker !== null)
+  }
+
+
 
   createMarker = (latLng) => {
     let marker = {
@@ -76,7 +58,7 @@ class App extends Component {
       msg : "-insert message-",
       time : null,
       defaultAnimation: 0,
-      key: Date.now(),
+      key: Date.now(), // + username
       showMsg: false,
     };
     return marker;
@@ -90,8 +72,58 @@ class App extends Component {
     return markers;
   }
 
+  onMarkerClick = (targetMarker) => {
+    this.selectMarker(targetMarker);
+  }
+
+  updateMarkersHandler = (markers) => {
+    // If the markers are being updated, it means a marker is being added or removed
+    // which means we can enable clicking on the mpa and disable input.
+    this.setState({markers, disableMapClick: false, disabledInput : true})
+
+  }
+
+  refreshMarkers = (newMarker) => {
+    //update the info in the marker list, but doesn't remove a marker.
+    let markers = this.state.markers;
+    return markers.map ((marker) => {
+      if (marker.key === newMarker.key){
+        return newMarker;
+      }
+      return marker
+    });
+  }
+
+  onSubmitMessage = () => {
+    //Once the user types a message and has selected a marker
+    if (this.state.msg.length > 0 && this.state.selectedMarker){
+      //we edit the marker's msg and refresh the map, enable clicking on the map
+      // and disable input.
+      this.editMarkerMsg();
+      this.toggleMap();
+      this.setState({disabledInput : true})
+    }
+  }
+
+  editMarkerMsg = () => {
+    //copies msg over to marker, refreshes marker list, clears msg. Updates state.
+    let selectedMarker = this.state.selectedMarker;
+    let markers = this.state.markers;
+    let msg = this.state.msg;
+    selectedMarker.msg = msg;
+    selectedMarker.showMsg = true;
+    markers = this.refreshMarkers(selectedMarker);
+    msg = '';
+    this.setState({selectedMarker,markers,msg})
+  }
+
+
+
+
   onMapClickHandler = (event) => {
+    // if mapclick is not disabled
     if ( ! this.state.disableMapClick){
+      //create marker, add it to markers, update state. disable map click, edit message.
       const marker = this.createMarker(event.latLng);
       const markers = this.addMarker(marker);
       this.setState({
@@ -106,16 +138,8 @@ class App extends Component {
 
   }
 
-  isMarkerSelected = () => {
-    return (this.state.selectedMarker !== null)
-  }
-
-  updateMarkersHandler = (markers) => {
-    this.setState({markers, disableMapClick: false, disabledInput : true})
-
-  }
-
   selectMarker = (selectedMarker) => {
+    //selects a marker from the marker list.
     this.setState({
       markers: this.state.markers.map(marker => {
         if (marker === selectedMarker) {
@@ -130,15 +154,10 @@ class App extends Component {
     });
   }
 
-  onMarkerClick = (targetMarker) => {
-    this.selectMarker(targetMarker);
-  }
+
 
   render() {
     const mapHeight = this.state.windowHeight - (this.state.navHeight + this.state.tiHeight);
-    // console.log(
-    //   this.state.windowHeight, mapHeight, this.state.navHeight, this.state.tiHeight
-    // )
     return (
       <div className= {s.app}>
         <Nav height = {this.state.navHeight} account = {this.state.account}/>
