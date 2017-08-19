@@ -73,7 +73,7 @@ class App extends Component {
   }
 
   onMarkerClick = (targetMarker) => {
-    this.selectMarker(targetMarker);
+    if (! this.state.disableMapClick) this.selectMarker(targetMarker);
   }
 
   updateMarkersHandler = (markers) => {
