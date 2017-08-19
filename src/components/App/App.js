@@ -111,7 +111,8 @@ class App extends Component {
   }
 
   updateMarkersHandler = (markers) => {
-    this.setState({markers})
+    this.setState({markers, disableMapClick: false, disabledInput : true})
+
   }
 
   selectMarker = (selectedMarker) => {

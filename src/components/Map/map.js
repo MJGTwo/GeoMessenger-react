@@ -69,7 +69,8 @@ export default class Map extends Component{
 
   handleMarkerClick = (targetMarker) => {
     // console.log("marker clicked",targetMarker)
-    this.props.onMarkerClick(targetMarker)
+    if (targetMarker.msg.length === 0) this.handleMarkerRightClick(targetMarker);
+    else this.props.onMarkerClick(targetMarker)
   }
 
   render(){
