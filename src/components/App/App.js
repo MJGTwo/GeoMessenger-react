@@ -21,7 +21,8 @@ class App extends Component {
       },
       markers : [],
       disabledInput : true,
-      selectedMarker : null
+      selectedMarker : null,
+      disableMapClick : false,
     }
   }
 
@@ -43,7 +44,8 @@ class App extends Component {
   onSubmitMessage = () => {
     if (this.state.msg.length > 0 && this.state.selectedMarker){
       this.editMarkerMsg();
-
+      this.toggleMap();
+      this.setState({disabledInput : true})
     }
   }
 
@@ -61,6 +63,11 @@ class App extends Component {
     });
     msg = '';
     this.setState({selectedMarker,markers,msg})
+  }
+
+  toggleMap = () => {
+    const disableMapClick = ! this.state.disableMapClick;
+    this.setState({disableMapClick, })
   }
 
   createMarker = (latLng) => {
@@ -84,19 +91,24 @@ class App extends Component {
   }
 
   onMapClickHandler = (event) => {
-    const marker = this.createMarker(event.latLng);
-    const markers = this.addMarker(marker);
-    this.setState({
-      markers,
-      disabledInput : false,
-    });
+    if ( ! this.state.disableMapClick){
+      const marker = this.createMarker(event.latLng);
+      const markers = this.addMarker(marker);
+      this.setState({
+        markers,
+        disabledInput : false,
+        selectedMarker : marker
+      });
+      this.toggleMap();
+      this.editMarkerMsg();
+
+    }
+
   }
 
-  // enableInput = (marker) => {
-  //
-  //
-  //   return marker;
-  // }
+  isMarkerSelected = () => {
+    return (this.state.selectedMarker !== null)
+  }
 
   updateMarkersHandler = (markers) => {
     this.setState({markers})
