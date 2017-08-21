@@ -1,8 +1,21 @@
 import React, { Component } from 'react';
+import canUseDOM from "can-use-dom";
 import Nav from '../Nav';
 import Map from '../Map';
 import TextInput from '../TextInput';
 import s from './App.css';
+
+
+const geolocation = (
+  canUseDOM && navigator.geolocation ?
+  navigator.geolocation :
+  ({
+    getCurrentPosition(success, failure) {
+      failure(`Your browser doesn't support geolocation.`);
+    },
+  })
+);
+
 
 class App extends Component {
 
@@ -12,6 +25,10 @@ class App extends Component {
       windowHeight : window.innerHeight,
       navHeight : 70,
       tiHeight : 100,
+      pos : {
+        lat: 40.6976701,
+        lng: -74.2598661
+      },
       msg : '',
       location : null,
       account : {
@@ -28,6 +45,17 @@ class App extends Component {
 
   componentDidMount = () => {
     window.addEventListener('resize',this.onWindowResize,true);
+    geolocation.getCurrentPosition(this.showPosition);
+    // console.log('pos,', pos);
+  }
+
+  showPosition = (position) => {
+      const pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      }
+      this.setState({pos})
+      // console.log('pos2',pos)
   }
 
 
@@ -167,6 +195,7 @@ class App extends Component {
           markers = {this.state.markers}
           updateMarkers = {this.updateMarkersHandler}
           onMarkerClick = {this.onMarkerClick}
+          pos = {this.state.pos}
         />
         <TextInput
           height = {this.state.disabledInput ? 0 : this.state.tiHeight}
