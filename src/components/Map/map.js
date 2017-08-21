@@ -5,6 +5,7 @@ import {
   GoogleMap,
   InfoWindow,
   Marker,
+  Circle,
 } from 'react-google-maps';
 
 import s from './map.css';
@@ -18,7 +19,7 @@ const GoogleMapContainer = withGoogleMap(props => (
   <GoogleMap
     ref={props.onMapLoad}
     defaultZoom={10}
-    defaultCenter={{ lat: 40.6976684, lng: -74.0154206 }}
+    defaultCenter={props.pos}
     onClick={props.onMapClick}
   >
     {props.markers.map(marker => (
@@ -74,7 +75,8 @@ export default class Map extends Component{
   }
 
   render(){
-    const {height} = {...this.props};
+    const {height,pos} = {...this.props};
+    console.log("mappos", pos)
     return (
       <div className = {s.map}  id = "map" style = {{height : `${height}px`}}>
 
@@ -90,6 +92,7 @@ export default class Map extends Component{
           markers={this.props.markers}
           onMarkerRightClick={this.handleMarkerRightClick}
           onMarkerClick={this.handleMarkerClick}
+          pos = {pos}
         />
 
 

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@google/maps": "^0.4.3",
+    "can-use-dom": "^0.1.0",
     "classnames": "^2.2.5",
     "google-map-react": "^0.24.0",
     "lodash": "^4.17.4",
