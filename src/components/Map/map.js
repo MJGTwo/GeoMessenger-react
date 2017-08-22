@@ -18,7 +18,7 @@ const API_KEY = 'AIzaSyDuUqpv6shuq8CIWgVjLdmVLm8SU8eSHU0';
 const GoogleMapContainer = withGoogleMap(props => (
   <GoogleMap
     ref={props.onMapLoad}
-    defaultZoom={10}
+    defaultZoom={12}
     center={props.center}
     onClick={props.onMapClick}
   >
@@ -36,6 +36,19 @@ const GoogleMapContainer = withGoogleMap(props => (
         )}
       </Marker>
     ))}
+    {props.center && (
+      <Circle
+     center={props.center}
+     radius={50}
+     options={{
+       fillColor: `blue`,
+       fillOpacity: 0.40,
+       strokeColor: `blue`,
+       strokeOpacity: 1,
+       strokeWeight: 1,
+     }}
+   />
+    )}
   </GoogleMap>
 ));
 
