@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import canUseDOM from "can-use-dom";
+import raf from "raf";
 import Nav from '../Nav';
 import Map from '../Map';
 import TextInput from '../TextInput';
@@ -21,14 +22,12 @@ class App extends Component {
 
   constructor(props){
     super(props);
+    this.isUnmounted = false;
     this.state = {
       windowHeight : window.innerHeight,
       navHeight : 70,
       tiHeight : 100,
-      pos : {
-        lat: 40.6976701,
-        lng: -74.2598661
-      },
+      center : null,
       msg : '',
       location : null,
       account : {
@@ -45,8 +44,31 @@ class App extends Component {
 
   componentDidMount = () => {
     window.addEventListener('resize',this.onWindowResize,true);
-    geolocation.getCurrentPosition(this.showPosition);
-    // console.log('pos,', pos);
+    geolocation.getCurrentPosition((position) => {
+      if (this.isUnmounted) {
+        return;
+      }
+      this.setState({
+        center: {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        }
+      });
+    }, (reason) => {
+      if (this.isUnmounted) {
+        return;
+      }
+      this.setState({
+        center: {
+          lat: 60,
+          lng: 105,
+        }
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    this.isUnmounted = true;
   }
 
   showPosition = (position) => {
@@ -195,7 +217,7 @@ class App extends Component {
           markers = {this.state.markers}
           updateMarkers = {this.updateMarkersHandler}
           onMarkerClick = {this.onMarkerClick}
-          pos = {this.state.pos}
+          center = {this.state.center}
         />
         <TextInput
           height = {this.state.disabledInput ? 0 : this.state.tiHeight}
