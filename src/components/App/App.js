@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import canUseDOM from "can-use-dom";
-import raf from "raf";
 import Nav from '../Nav';
 import Map from '../Map';
 import TextInput from '../TextInput';
@@ -52,6 +51,7 @@ class App extends Component {
         center: {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
+          accr: position.coords.accuracy,
         }
       });
     }, (reason) => {
@@ -62,6 +62,7 @@ class App extends Component {
         center: {
           lat: 60,
           lng: 105,
+          accr : 100,
         }
       });
     });

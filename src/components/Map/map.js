@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import _ from 'lodash';
+// import _ from 'lodash';
 import {
   withGoogleMap,
   GoogleMap,
@@ -10,7 +10,7 @@ import {
 
 import s from './map.css';
 
-const API_KEY = 'AIzaSyDuUqpv6shuq8CIWgVjLdmVLm8SU8eSHU0';
+// const API_KEY = 'AIzaSyDuUqpv6shuq8CIWgVjLdmVLm8SU8eSHU0';
 
 
 
@@ -39,7 +39,7 @@ const GoogleMapContainer = withGoogleMap(props => (
     {props.center && (
       <Circle
      center={props.center}
-     radius={50}
+     radius={props.center.accr}
      options={{
        fillColor: `blue`,
        fillOpacity: 0.40,
@@ -63,6 +63,7 @@ export default class Map extends Component{
   };
   constructor(props){
     super(props);
+    this.props = props;
   }
 
   handleMapLoad = (map) => {
