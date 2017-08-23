@@ -9,6 +9,13 @@ import s from './textInput.css';
 const Message = (props) => {
   const {height,value,onInputChange, onSubmit, disabled} = {...props};
 
+  const enterKeyHandle = (evt) => {
+    const key = evt.key;
+    if (key === 'Enter'){
+      onSubmit()
+    }
+  }
+
 
   return (
     <div className = {s.message} style = {{padding: `${height/4}px`}}>
@@ -17,7 +24,7 @@ const Message = (props) => {
         value={value}
         disabled = {disabled}
         onChange={evt => onInputChange(evt)}
-        onKeyUp = {evt => {evt.key === 'Enter' ? onSubmit() : null}}>
+        onKeyUp = {evt => enterKeyHandle(evt)}>
       </input>
       <Button
         disabled = {disabled}

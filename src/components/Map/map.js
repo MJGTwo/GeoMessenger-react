@@ -1,15 +1,16 @@
 import React, {Component} from 'react';
-import _ from 'lodash';
+// import _ from 'lodash';
 import {
   withGoogleMap,
   GoogleMap,
   InfoWindow,
   Marker,
+  Circle,
 } from 'react-google-maps';
 
 import s from './map.css';
 
-const API_KEY = 'AIzaSyDuUqpv6shuq8CIWgVjLdmVLm8SU8eSHU0';
+// const API_KEY = 'AIzaSyDuUqpv6shuq8CIWgVjLdmVLm8SU8eSHU0';
 
 
 
@@ -17,8 +18,8 @@ const API_KEY = 'AIzaSyDuUqpv6shuq8CIWgVjLdmVLm8SU8eSHU0';
 const GoogleMapContainer = withGoogleMap(props => (
   <GoogleMap
     ref={props.onMapLoad}
-    defaultZoom={10}
-    defaultCenter={{ lat: 40.6976684, lng: -74.0154206 }}
+    defaultZoom={12}
+    center={props.center}
     onClick={props.onMapClick}
   >
     {props.markers.map(marker => (
@@ -35,6 +36,19 @@ const GoogleMapContainer = withGoogleMap(props => (
         )}
       </Marker>
     ))}
+    {props.center && (
+      <Circle
+     center={props.center}
+     radius={props.center.accr}
+     options={{
+       fillColor: `blue`,
+       fillOpacity: 0.40,
+       strokeColor: `blue`,
+       strokeOpacity: 1,
+       strokeWeight: 1,
+     }}
+   />
+    )}
   </GoogleMap>
 ));
 
@@ -49,13 +63,14 @@ export default class Map extends Component{
   };
   constructor(props){
     super(props);
+    this.props = props;
   }
 
   handleMapLoad = (map) => {
     this._mapComponent = map;
-    if (map) {
-      console.log(map.getZoom());
-    }
+    // if (map) {
+    //   console.log(map.getZoom());
+    // }
   }
 
   handleMapClick = (event) => {
@@ -74,7 +89,8 @@ export default class Map extends Component{
   }
 
   render(){
-    const {height} = {...this.props};
+    const {height,center} = {...this.props};
+    // console.log("mappos", center)
     return (
       <div className = {s.map}  id = "map" style = {{height : `${height}px`}}>
 
@@ -90,6 +106,7 @@ export default class Map extends Component{
           markers={this.props.markers}
           onMarkerRightClick={this.handleMarkerRightClick}
           onMarkerClick={this.handleMarkerClick}
+          center = {center}
         />
 
 

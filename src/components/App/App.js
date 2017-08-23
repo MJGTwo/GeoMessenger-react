@@ -1,17 +1,32 @@
 import React, { Component } from 'react';
+import canUseDOM from "can-use-dom";
 import Nav from '../Nav';
 import Map from '../Map';
 import TextInput from '../TextInput';
 import s from './App.css';
 
+
+const geolocation = (
+  canUseDOM && navigator.geolocation ?
+  navigator.geolocation :
+  ({
+    getCurrentPosition(success, failure) {
+      failure(`Your browser doesn't support geolocation.`);
+    },
+  })
+);
+
+
 class App extends Component {
 
   constructor(props){
     super(props);
+    this.isUnmounted = false;
     this.state = {
       windowHeight : window.innerHeight,
       navHeight : 70,
       tiHeight : 100,
+      center : null,
       msg : '',
       location : null,
       account : {
@@ -28,6 +43,42 @@ class App extends Component {
 
   componentDidMount = () => {
     window.addEventListener('resize',this.onWindowResize,true);
+    geolocation.getCurrentPosition((position) => {
+      if (this.isUnmounted) {
+        return;
+      }
+      this.setState({
+        center: {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+          accr: position.coords.accuracy,
+        }
+      });
+    }, (reason) => {
+      if (this.isUnmounted) {
+        return;
+      }
+      this.setState({
+        center: {
+          lat: 60,
+          lng: 105,
+          accr : 100,
+        }
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    this.isUnmounted = true;
+  }
+
+  showPosition = (position) => {
+      const pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      }
+      this.setState({pos})
+      // console.log('pos2',pos)
   }
 
 
@@ -167,6 +218,7 @@ class App extends Component {
           markers = {this.state.markers}
           updateMarkers = {this.updateMarkersHandler}
           onMarkerClick = {this.onMarkerClick}
+          center = {this.state.center}
         />
         <TextInput
           height = {this.state.disabledInput ? 0 : this.state.tiHeight}
