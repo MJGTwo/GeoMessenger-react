@@ -68,9 +68,9 @@ export default class Map extends Component{
 
   handleMapLoad = (map) => {
     this._mapComponent = map;
-    if (map) {
-      console.log(map.getZoom());
-    }
+    // if (map) {
+    //   console.log(map.getZoom());
+    // }
   }
 
   handleMapClick = (event) => {
@@ -90,7 +90,7 @@ export default class Map extends Component{
 
   render(){
     const {height,center} = {...this.props};
-    console.log("mappos", center)
+    // console.log("mappos", center)
     return (
       <div className = {s.map}  id = "map" style = {{height : `${height}px`}}>
 
