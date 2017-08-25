@@ -6,7 +6,9 @@ import {
   InfoWindow,
   Marker,
   Circle,
+  // MarkerClusterer
 } from 'react-google-maps';
+import {default as MarkerClusterer} from 'react-google-maps/lib/addons/MarkerClusterer';
 
 import s from './map.css';
 
@@ -22,20 +24,26 @@ const GoogleMapContainer = withGoogleMap(props => (
     center={props.center}
     onClick={props.onMapClick}
   >
-    {props.markers.map(marker => (
-      <Marker
-        {...marker}
-        onClick = {() => props.onMarkerClick(marker)}
-        onRightClick={() => props.onMarkerRightClick(marker)}
-      >
+    <MarkerClusterer
+      averageCenter
+      enableRetinaIcons
+      gridSize={60}
+    >
+      {props.markers.map(marker => (
+        <Marker
+          {...marker}
+          onClick = {() => props.onMarkerClick(marker)}
+          onRightClick={() => props.onMarkerRightClick(marker)}
+        >
 
-        {marker.showMsg && (
-          <InfoWindow onCloseClick={() => props.onMarkerClick(marker)}>
-            <div>{marker.msg}</div>
-          </InfoWindow>
-        )}
-      </Marker>
-    ))}
+          {marker.showMsg && (
+            <InfoWindow onCloseClick={() => props.onMarkerClick(marker)}>
+              <div>{marker.msg}</div>
+            </InfoWindow>
+          )}
+        </Marker>
+      ))}
+    </MarkerClusterer>
     {props.center && (
       <Circle
      center={props.center}
