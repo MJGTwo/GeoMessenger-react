@@ -43,7 +43,7 @@ class App extends Component {
 
   componentDidMount = () => {
     window.addEventListener('resize',this.onWindowResize,true);
-    geolocation.getCurrentPosition((position) => {
+    geolocation.watchPosition((position) => {
       if (this.isUnmounted) {
         return;
       }
@@ -104,8 +104,9 @@ class App extends Component {
 
 
   createMarker = (latLng) => {
+    const {lat,lng} = this.state.center
     let marker = {
-      position: latLng,
+      position: {lat,lng},
       msg : "-insert message-",
       time : null,
       defaultAnimation: 0,
