@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
+import ReactMapboxGl, { Layer, Marker } from "react-mapbox-gl";
 
 // import _ from 'lodash';
 // import {
@@ -17,8 +17,8 @@ import s from './map.css';
 const Map = ReactMapboxGl({
 accessToken: "pk.eyJ1IjoiZ2FyZG5tNCIsImEiOiJjaXVoaWNkNmIwMHNuMnRsM2s1ZGJoa2JsIn0.J3aEjd8rUNorM-6KwwpJEg"
 });
+const zoom = [8];
 // const API_KEY = 'AIzaSyDuUqpv6shuq8CIWgVjLdmVLm8SU8eSHU0';
-
 
 
 
@@ -101,21 +101,24 @@ export default class MapContainer extends Component{
   //   else this.props.onMarkerClick(targetMarker)
   // }
 
-  renderMap = (height) => {
-    return (<Map
-  style="mapbox://styles/mapbox/streets-v9"
-  containerStyle={{
-    height: `${height}px`,
-    width: "100vw"
-  }}
-  >
-    <Layer
-      type="symbol"
-      id="marker"
-      layout={{ "icon-image": "marker-15" }}>
-      <Feature coordinates={[-0.481747846041145, 51.3233379650232]}/>
-    </Layer>
-</Map>)
+  renderMap = (height,center) => {
+    console.log(center)
+    return (
+      <Map
+        style="mapbox://styles/mapbox/navigation-preview-day-v2"
+        containerStyle={{
+          height: `${height}px`,
+          width: "100vw"
+        }}
+        zoom = {zoom}
+        center = {[-73.671130,42.730725]}
+        >
+        <Layer
+          type="symbol"
+          id="marker"
+          layout={{ "icon-image": "marker-15" }}>
+        </Layer>
+      </Map>)
   }
 
   render(){
@@ -138,7 +141,7 @@ export default class MapContainer extends Component{
           onMarkerClick={this.handleMarkerClick}
           center = {center}
         /> */}
-        {this.renderMap(height)}
+        {this.renderMap(height,center)}
 
       </div>
 
